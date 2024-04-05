@@ -81,6 +81,12 @@ public class ClaimProcessManagerImpl implements ClaimProcessManager {
     }
 
     @Override
+    public Claim getOneWithAllData(String claimId) {
+        Optional<Claim> claimOptional = claimDAO.getByClaimIdWithAllData(claimId);
+        return claimOptional.orElse(null);
+    }
+
+    @Override
     public List<Claim> getAllClaims(String status) {
         if (!status.equalsIgnoreCase("all")) {
             ClaimStatus claimStatus = ClaimStatus.fromValue(status);

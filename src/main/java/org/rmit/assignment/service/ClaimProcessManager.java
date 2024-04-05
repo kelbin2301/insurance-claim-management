@@ -9,5 +9,8 @@ public interface ClaimProcessManager {
     void update(Claim claim);
     void delete(Claim claim);
     Claim getOne(String claimId);
+
+    Claim getOneWithAllData(String claimId);
+
     List<Claim> getAllClaims(String status);
 }

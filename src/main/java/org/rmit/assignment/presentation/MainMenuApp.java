@@ -2,6 +2,8 @@ package org.rmit.assignment.presentation;
 
 import org.rmit.assignment.dao.entity.BankingInfo;
 import org.rmit.assignment.dao.entity.Claim;
+import org.rmit.assignment.dao.entity.Customer;
+import org.rmit.assignment.dao.entity.InsuranceCard;
 import org.rmit.assignment.enumeration.ClaimStatus;
 import org.rmit.assignment.service.ClaimProcessManager;
 import org.rmit.assignment.utils.AppUtils;
@@ -28,7 +30,7 @@ public class MainMenuApp {
             System.out.println("              Insurance Claims Management System            ");
             System.out.println("============================================================");
             System.out.println("|   1. View all claims                                     |");
-            System.out.println("|   2. View detail claims                                  |");
+            System.out.println("|   2. View detail claim                                   |");
             System.out.println("|   3. Add a new claim                                     |");
             System.out.println("|   4. Update a claim                                      |");
             System.out.println("|   5. Delete a claim                                      |");
@@ -43,22 +45,35 @@ public class MainMenuApp {
             switch (choice) {
                 case 1:
                     viewAllClaims();
+                    System.out.print("Press enter to continue...");
+                    scanner.nextLine();
+                    break;
+                case 2:
+                    viewDetailClaim();
+                    System.out.print("Press enter to continue...");
+                    scanner.nextLine();
                     break;
                 case 3:
                     addNewClaim();
                     System.out.println("Claim added successfully!");
+                    System.out.print("Press enter to continue...");
+                    scanner.nextLine();
                     break;
                 case 4:
                     updateClaim();
                     System.out.println("Claim updated successfully!");
+                    System.out.print("Press enter to continue...");
+                    scanner.nextLine();
                     break;
                 case 5:
                     boolean isDeleted = deleteClaim();
                     if (isDeleted) {
                         System.out.println("Claim deleted successfully!");
                     } else {
-                        System.out.println("Operation cancelled!");
+                        System.out.print("Operation cancelled!");
                     }
+                    System.out.println("Press enter to continue...");
+                    scanner.nextLine();
                     break;
                 case 0:
                     System.out.println("Exiting program...");
@@ -68,6 +83,38 @@ public class MainMenuApp {
                     System.out.println("Invalid choice. Please enter a number between 1 and 5.");
             }
         }
+    }
+
+    private void viewDetailClaim() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter claim ID to view detail: ");
+        String claimId = scanner.nextLine();
+        Claim claim = claimProcessManager.getOneWithAllData(claimId);
+        if (claim == null) {
+            System.out.println("Claim not found!");
+            return;
+        }
+
+        Customer customer = claim.getCustomer();
+        InsuranceCard insuranceCard = customer.getInsuranceCard();
+        BankingInfo bankingInfo = claim.getBankingInfo();
+
+        System.out.println("==================== Claim detail ===============================");
+        System.out.println("Claim ID: " + claim.getId());
+        System.out.println("== Customer ID: " + customer.getId());
+        System.out.println("== Customer Name: " + customer.getFullName());
+        System.out.println("== Customer Type: " + customer.getCustomerType());
+        System.out.println("===== Insurance Card Number: " + insuranceCard.getCardNumber());
+        System.out.println("===== Policy Owner: " + insuranceCard.getPolicyOwner());
+        System.out.println("===== Expiration Date: " + insuranceCard.getExpirationDate());
+        System.out.println("Exam Date: " + claim.getExamDate());
+        System.out.println("List of documents: " + claim.getListDocuments());
+        System.out.println("Claim amount: " + claim.getClaimAmount());
+        System.out.println("Status: " + claim.getStatus());
+        System.out.println("== Receiver Banking Name: " + bankingInfo.getBankName());
+        System.out.println("== Receiver Account Number: " + bankingInfo.getAccountName());
+        System.out.println("== Receiver Account Name: " + bankingInfo.getAccountNumber());
+        System.out.println("=================================================================");
     }
 
     private boolean deleteClaim() {

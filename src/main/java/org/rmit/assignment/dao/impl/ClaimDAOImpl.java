@@ -2,7 +2,10 @@ package org.rmit.assignment.dao.impl;
 
 import org.rmit.assignment.dao.ClaimDAO;
 import org.rmit.assignment.dao.DatabaseInitializer;
+import org.rmit.assignment.dao.entity.BankingInfo;
 import org.rmit.assignment.dao.entity.Claim;
+import org.rmit.assignment.dao.entity.Customer;
+import org.rmit.assignment.dao.entity.InsuranceCard;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -170,5 +173,69 @@ public class ClaimDAOImpl implements ClaimDAO {
             throw new RuntimeException(e);
         }
         return claimList;
+    }
+
+    @Override
+    public Optional<Claim> getByClaimIdWithAllData(String claimId) {
+        Connection connection = DatabaseInitializer.getInstance().getConnection();
+        String query = "SELECT * FROM claim c JOIN customer cu ON c.customer_id = cu.id JOIN banking_info bi ON c.receiver_bank_id = bi.id WHERE c.id = ?";
+        String queryInsuranceCard = "SELECT * FROM insurance_card WHERE customer_id = ?";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, claimId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                Claim claim = new Claim();
+                claim.setId(resultSet.getString("id"));
+                claim.setCustomerId(resultSet.getString("customer_id"));
+
+                Customer customer = new Customer();
+                customer.setId(resultSet.getString("customer_id"));
+                customer.setFullName(resultSet.getString("full_name"));
+                customer.setCustomerType(resultSet.getString("customer_type"));
+
+                String stringDate = resultSet.getString("exam_date");
+                Date date = Date.valueOf(stringDate);
+                claim.setExamDate(date);
+
+                claim.setListDocuments(resultSet.getString("list_of_documents"));
+                claim.setClaimAmount(resultSet.getDouble("claim_amount"));
+                claim.setStatus(resultSet.getString("status"));
+                claim.setBankingInfoId(resultSet.getString("receiver_bank_id"));
+
+                BankingInfo bankingInfo = new BankingInfo();
+                bankingInfo.setBankName(resultSet.getString("bank_name"));
+                bankingInfo.setAccountNumber(resultSet.getString("account_number"));
+                bankingInfo.setAccountName(resultSet.getString("account_name"));
+
+                String customerId = claim.getCustomerId();
+                preparedStatement = connection.prepareStatement(queryInsuranceCard);
+                preparedStatement.setString(1, customerId);
+                ResultSet insuranceCardResultSet = preparedStatement.executeQuery();
+
+                if (insuranceCardResultSet.next()) {
+                    InsuranceCard insuranceCard = new InsuranceCard();
+                    insuranceCard.setCardNumber(insuranceCardResultSet.getString("card_number"));
+                    insuranceCard.setPolicyOwner(insuranceCardResultSet.getString("policy_owner"));
+
+                    String expirationDateStr = insuranceCardResultSet.getString("expiration_date");
+                    Date expirationDate = Date.valueOf(expirationDateStr);
+
+                    insuranceCard.setExpirationDate(expirationDate);
+                    customer.setInsuranceCard(insuranceCard);
+                }
+
+                claim.setBankingInfo(bankingInfo);
+                claim.setCustomer(customer);
+
+                return Optional.of(claim);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return Optional.empty();
     }
 }

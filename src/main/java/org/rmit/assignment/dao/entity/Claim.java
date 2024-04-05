@@ -8,6 +8,8 @@ public class Claim {
 
     private String customerId;
 
+    private Customer customer;
+
     private String customerName;
 
     private String customerType;
@@ -140,5 +142,13 @@ public class Claim {
 
     public void setListDocuments(String listDocuments) {
         this.listDocuments = listDocuments;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }
