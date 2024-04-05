@@ -120,7 +120,16 @@ public class ClaimDAOImpl implements ClaimDAO {
 
     @Override
     public void delete(Claim claim) {
+        Connection connection = DatabaseInitializer.getInstance().getConnection();
+        String query = "DELETE FROM claim WHERE id = ?";
 
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, claim.getId());
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

@@ -53,6 +53,15 @@ public class MainMenuApp {
                     updateClaim();
                     System.out.println("Claim updated successfully!");
                     System.out.println("Press any key to continue...");
+                    scanner.nextLine();
+                    break;
+                case 4:
+                    boolean isDeleted = deleteClaim();
+                    if (isDeleted) {
+                        System.out.println("Claim deleted successfully!");
+                    }
+                    System.out.println("Press any key to continue...");
+                    scanner.nextLine();
                     break;
                 case 5:
                     System.out.println("Exiting program...");
@@ -62,6 +71,26 @@ public class MainMenuApp {
                     System.out.println("Invalid choice. Please enter a number between 1 and 5.");
             }
         }
+    }
+
+    private boolean deleteClaim() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter claim ID to delete: ");
+        String claimId = scanner.nextLine();
+        Claim claim = claimProcessManager.getOne(claimId);
+        if (claim == null) {
+            System.out.println("Claim not found!");
+            return false;
+        }
+
+        System.out.println("Are you sure you want to delete this claim? (Y/N)");
+        String confirm = scanner.nextLine();
+        if (!confirm.equalsIgnoreCase("Y")) {
+            return false;
+        }
+
+        claimProcessManager.delete(claim);
+        return true;
     }
 
     private void updateClaim() {

@@ -7,7 +7,7 @@ import java.util.List;
 public interface ClaimProcessManager {
     void add(Claim claim);
     void update(Claim claim);
-    void delete(String claimId);
+    void delete(Claim claim);
     Claim getOne(String claimId);
     List<Claim> getAllClaims();
 }

@@ -70,8 +70,8 @@ public class ClaimProcessManagerImpl implements ClaimProcessManager {
     }
 
     @Override
-    public void delete(String claimId) {
-
+    public void delete(Claim claim) {
+        claimDAO.delete(claim);
     }
 
     @Override
