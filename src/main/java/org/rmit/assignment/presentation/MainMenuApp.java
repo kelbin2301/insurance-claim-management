@@ -2,10 +2,12 @@ package org.rmit.assignment.presentation;
 
 import org.rmit.assignment.dao.entity.BankingInfo;
 import org.rmit.assignment.dao.entity.Claim;
+import org.rmit.assignment.enumeration.ClaimStatus;
 import org.rmit.assignment.service.ClaimProcessManager;
 import org.rmit.assignment.utils.AppUtils;
 import org.rmit.assignment.utils.DateUtils;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -47,6 +49,11 @@ public class MainMenuApp {
                     System.out.println("Press any key to continue...");
                     scanner.nextLine();
                     break;
+                case 3:
+                    updateClaim();
+                    System.out.println("Claim updated successfully!");
+                    System.out.println("Press any key to continue...");
+                    break;
                 case 5:
                     System.out.println("Exiting program...");
                     System.exit(0);
@@ -57,13 +64,47 @@ public class MainMenuApp {
         }
     }
 
+    private void updateClaim() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter claim ID to update: ");
+        String claimId = scanner.nextLine();
+        Claim claim = claimProcessManager.getOne(claimId);
+        if (claim == null) {
+            System.out.println("Claim not found!");
+            return;
+        }
+
+        System.out.println("Enter new exam date (yyyy-MM-dd). Current exam date: " + claim.getExamDate());
+        String examDate = scanner.nextLine();
+        claim.setExamDate(DateUtils.convertStringToDate(examDate));
+
+        System.out.println("Enter new list documents name, separate by a comma. Current list documents: " + claim.getListDocuments());
+        String listDocuments = scanner.nextLine();
+        claim.setListDocuments(listDocuments);
+
+        System.out.println("Enter new claim amount. Current claim amount: " + claim.getClaimAmount());
+        double claimAmount = scanner.nextDouble();
+        claim.setClaimAmount(claimAmount);
+        scanner.nextLine();
+
+        System.out.println("Enter status. Status option: " + ClaimStatus.getValuesByString() + ". Current status: " + claim.getStatus());
+        String status = scanner.nextLine();
+        if (Arrays.stream(ClaimStatus.values()).noneMatch(claimStatus -> claimStatus.getValue().equals(status.toLowerCase()))) {
+            System.out.println("Invalid status. Please enter a valid status.");
+            return;
+        }
+        claim.setStatus(status);
+
+        claimProcessManager.update(claim);
+    }
+
 
     private void addNewClaim() {
         Scanner scanner = new Scanner(System.in);
 
         Claim claim = new Claim();
 
-        System.out.print("Enter customer ID: ");
+        System.out.println("Enter customer ID: ");
         String customerId = scanner.nextLine();
         claim.setCustomerId(customerId);
 
@@ -71,22 +112,22 @@ public class MainMenuApp {
         String examDate = scanner.nextLine();
         claim.setExamDate(DateUtils.convertStringToDate(examDate));
 
-        System.out.print("Enter list documents name, separate by a comma: ");
+        System.out.println("Enter list documents name, separate by a comma: ");
         String listDocuments = scanner.nextLine();
         claim.setListDocuments(listDocuments);
 
-        System.out.print("Enter claim amount: ");
+        System.out.println("Enter claim amount: ");
         double claimAmount = scanner.nextDouble();
         claim.setClaimAmount(claimAmount);
         scanner.nextLine();
 
-        System.out.println("Enter receiver banking information: ");
+        System.out.print("Enter receiver banking information: ");
         BankingInfo bankingInfo = new BankingInfo();
-        System.out.print("Enter banking name: ");
+        System.out.println("Enter banking name: ");
         String bankingName = scanner.nextLine();
         bankingInfo.setBankName(bankingName);
 
-        System.out.print("Enter account number: ");
+        System.out.println("Enter account number: ");
         String accountNumber = scanner.nextLine();
         bankingInfo.setAccountNumber(accountNumber);
 

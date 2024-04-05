@@ -44,6 +44,33 @@ public class ClaimDAOImpl implements ClaimDAO {
 
     @Override
     public Optional<Claim> get(String id) {
+        Connection connection = DatabaseInitializer.getInstance().getConnection();
+        String query = "SELECT * FROM claim WHERE id = ?";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                Claim claim = new Claim();
+                claim.setId(resultSet.getString("id"));
+                claim.setCustomerId(resultSet.getString("customer_id"));
+
+                String stringDate = resultSet.getString("exam_date");
+                Date date = Date.valueOf(stringDate);
+                claim.setExamDate(date);
+
+                claim.setListDocuments(resultSet.getString("list_of_documents"));
+                claim.setClaimAmount(resultSet.getDouble("claim_amount"));
+                claim.setStatus(resultSet.getString("status"));
+                claim.setBankingInfoId(resultSet.getString("receiver_bank_id"));
+
+                return Optional.of(claim);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         return Optional.empty();
     }
 
@@ -72,6 +99,22 @@ public class ClaimDAOImpl implements ClaimDAO {
 
     @Override
     public void update(Claim claim) {
+        Connection connection = DatabaseInitializer.getInstance().getConnection();
+        String query = "UPDATE claim SET exam_date = ?, list_of_documents = ?, claim_amount = ?, status = ? WHERE id = ?";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+            preparedStatement.setString(1, claim.getExamDate().toString());
+            preparedStatement.setString(2, claim.getListDocuments());
+            preparedStatement.setDouble(3, claim.getClaimAmount());
+            preparedStatement.setString(4, claim.getStatus());
+            preparedStatement.setString(5, claim.getId());
+
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
     }
 

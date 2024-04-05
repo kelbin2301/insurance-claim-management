@@ -63,7 +63,9 @@ public class ClaimProcessManagerImpl implements ClaimProcessManager {
 
     @Override
     public void update(Claim claim) {
+        formatListDocuments(claim.getListDocuments(), claim.getId(), claim.getCustomerId());
 
+        claimDAO.update(claim);
     }
 
     @Override
@@ -73,6 +75,10 @@ public class ClaimProcessManagerImpl implements ClaimProcessManager {
 
     @Override
     public Claim getOne(String claimId) {
+        Optional<Claim> claim = claimDAO.get(claimId);
+        if (claim.isPresent()) {
+            return claim.get();
+        }
         return null;
     }
 

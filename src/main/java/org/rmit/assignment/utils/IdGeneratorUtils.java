@@ -1,12 +1,12 @@
 package org.rmit.assignment.utils;
 
 public class IdGeneratorUtils {
-    public static String generateId(String prefix, int number) {
+    public static String generateId(String prefix, long number) {
         return prefix + number;
     }
 
     public static String generateClaimId() {
-        return generateId("f-", (int) (Math.random() * 1000000000));
+        return generateId("f-", (long) (Math.random() * 10000000000L));
     }
 
     public static String generateCustomerId() {

@@ -1,5 +1,7 @@
 package org.rmit.assignment.enumeration;
 
+import java.util.Arrays;
+
 public enum ClaimStatus {
     NEW("new"),
     PROCESSING("processing"),
@@ -14,6 +16,10 @@ public enum ClaimStatus {
 
     public String getValue() {
         return value;
+    }
+
+    public static String getValuesByString() {
+        return Arrays.toString(ClaimStatus.values());
     }
 
     public static ClaimStatus fromValue(String value) {
