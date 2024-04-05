@@ -25,13 +25,15 @@ public class MainMenuApp {
             AppUtils.clearConsole();
 
             System.out.println("============================================================");
-            System.out.println("              Insurance Claims Management System             ");
+            System.out.println("              Insurance Claims Management System            ");
             System.out.println("============================================================");
             System.out.println("|   1. View all claims                                     |");
-            System.out.println("|   2. Add a new claim                                     |");
-            System.out.println("|   3. Update a claim                                      |");
-            System.out.println("|   4. Delete a claim                                      |");
-            System.out.println("|   5. Exit                                                |");
+            System.out.println("|   2. View detail claims                                  |");
+            System.out.println("|   3. Add a new claim                                     |");
+            System.out.println("|   4. Update a claim                                      |");
+            System.out.println("|   5. Delete a claim                                      |");
+            System.out.println("|   6. View all customers                                  |");
+            System.out.println("|   6. Add a new customer                                  |");
             System.out.println("|   0. Exit                                                |");
             System.out.println("============================================================");
             System.out.print("Enter your choice: ");
@@ -42,15 +44,15 @@ public class MainMenuApp {
                 case 1:
                     viewAllClaims();
                     break;
-                case 2:
+                case 3:
                     addNewClaim();
                     System.out.println("Claim added successfully!");
                     break;
-                case 3:
+                case 4:
                     updateClaim();
                     System.out.println("Claim updated successfully!");
                     break;
-                case 4:
+                case 5:
                     boolean isDeleted = deleteClaim();
                     if (isDeleted) {
                         System.out.println("Claim deleted successfully!");
