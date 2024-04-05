@@ -32,6 +32,7 @@ public class MainMenuApp {
             System.out.println("|   3. Update a claim                                      |");
             System.out.println("|   4. Delete a claim                                      |");
             System.out.println("|   5. Exit                                                |");
+            System.out.println("|   0. Exit                                                |");
             System.out.println("============================================================");
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
@@ -40,30 +41,24 @@ public class MainMenuApp {
             switch (choice) {
                 case 1:
                     viewAllClaims();
-                    System.out.println("Press any key to continue...");
-                    scanner.nextLine();
                     break;
                 case 2:
                     addNewClaim();
                     System.out.println("Claim added successfully!");
-                    System.out.println("Press any key to continue...");
-                    scanner.nextLine();
                     break;
                 case 3:
                     updateClaim();
                     System.out.println("Claim updated successfully!");
-                    System.out.println("Press any key to continue...");
-                    scanner.nextLine();
                     break;
                 case 4:
                     boolean isDeleted = deleteClaim();
                     if (isDeleted) {
                         System.out.println("Claim deleted successfully!");
+                    } else {
+                        System.out.println("Operation cancelled!");
                     }
-                    System.out.println("Press any key to continue...");
-                    scanner.nextLine();
                     break;
-                case 5:
+                case 0:
                     System.out.println("Exiting program...");
                     System.exit(0);
                     break;
@@ -170,7 +165,11 @@ public class MainMenuApp {
     }
 
     private void viewAllClaims() {
-        List<Claim> claims = claimProcessManager.getAllClaims();
+        System.out.println("Enter claim by status (new, processing, done, all): ");
+        Scanner scanner = new Scanner(System.in);
+        String status = scanner.nextLine();
+
+        List<Claim> claims = claimProcessManager.getAllClaims(status);
         System.out.println("+------------+------------+-----------------------+--------------+-----------------+--------------+--------------+--------------+--------------+--------------+");
         System.out.println("|    ID      | CustomerID |     CustomerName      | CustomerType |    ExamDate    |  Documents   | ClaimAmount  |    Status    | Banking Name | Account No   |");
         System.out.println("+------------+------------+-----------------------+--------------+-----------------+--------------+--------------+--------------+--------------+--------------+");

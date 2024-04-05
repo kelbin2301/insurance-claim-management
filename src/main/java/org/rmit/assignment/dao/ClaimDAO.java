@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface ClaimDAO extends BaseDAO<Claim>{
 
-    List<Claim> getAllWithCustomerInfoAndBankInfo();
+    List<Claim> getAllWithCustomerInfoAndBankInfo(String status);
 }

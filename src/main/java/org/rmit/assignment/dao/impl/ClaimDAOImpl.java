@@ -133,9 +133,12 @@ public class ClaimDAOImpl implements ClaimDAO {
     }
 
     @Override
-    public List<Claim> getAllWithCustomerInfoAndBankInfo() {
+    public List<Claim> getAllWithCustomerInfoAndBankInfo(String status) {
         Connection connection = DatabaseInitializer.getInstance().getConnection();
         String query = "SELECT * FROM claim c JOIN customer cu ON c.customer_id = cu.id JOIN banking_info bi ON c.receiver_bank_id = bi.id";
+        if (!status.equalsIgnoreCase("all")) {
+            query += " WHERE c.status = '" + status + "'";
+        }
 
         List<Claim> claimList = new ArrayList<>();
         try {

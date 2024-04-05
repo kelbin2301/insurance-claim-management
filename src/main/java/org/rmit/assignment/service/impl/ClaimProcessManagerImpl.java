@@ -11,10 +11,7 @@ import org.rmit.assignment.enumeration.ClaimStatus;
 import org.rmit.assignment.service.ClaimProcessManager;
 import org.rmit.assignment.utils.IdGeneratorUtils;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class ClaimProcessManagerImpl implements ClaimProcessManager {
 
@@ -84,9 +81,17 @@ public class ClaimProcessManagerImpl implements ClaimProcessManager {
     }
 
     @Override
-    public List<Claim> getAllClaims() {
-        List<Claim> allWithCustomerInfoAndBankInfo = claimDAO.getAllWithCustomerInfoAndBankInfo();
-        allWithCustomerInfoAndBankInfo.sort(Comparator.comparing(Claim::getExamDate));
+    public List<Claim> getAllClaims(String status) {
+        if (!status.equalsIgnoreCase("all")) {
+            ClaimStatus claimStatus = ClaimStatus.fromValue(status);
+            if (claimStatus == null) {
+                System.out.println("Invalid query status");
+                return Collections.emptyList();
+            }
+        }
+
+        List<Claim> allWithCustomerInfoAndBankInfo = claimDAO.getAllWithCustomerInfoAndBankInfo(status);
+        allWithCustomerInfoAndBankInfo.sort(Comparator.comparing(Claim::getExamDate).reversed());
         return allWithCustomerInfoAndBankInfo;
     }
 
