@@ -63,7 +63,8 @@ public class ClaimProcessManagerImpl implements ClaimProcessManager {
 
     @Override
     public void update(Claim claim) {
-        formatListDocuments(claim.getListDocuments(), claim.getId(), claim.getCustomerId());
+        String formattedDocuments = formatListDocuments(claim.getListDocuments(), claim.getId(), claim.getCustomerId());
+        claim.setListDocuments(formattedDocuments);
 
         claimDAO.update(claim);
     }
