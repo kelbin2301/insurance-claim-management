@@ -2,12 +2,15 @@ package org.rmit.assignment.dao.entity;
 
 
 import java.sql.Date;
-import java.util.List;
 
 public class Claim {
     private String id;
 
     private String customerId;
+
+    private String customerName;
+
+    private String customerType;
 
     private Date examDate;
 
@@ -20,6 +23,49 @@ public class Claim {
     private BankingInfo bankingInfo;
 
     private String bankingInfoId;
+
+    private String bankingName;
+
+    private String bankingAccountNumber;
+
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getCustomerType() {
+        return customerType;
+    }
+
+    public void setCustomerType(String customerType) {
+        this.customerType = customerType;
+    }
+
+    public String getListDocuments() {
+        return listDocuments;
+    }
+
+    public String getBankingName() {
+        return bankingName;
+    }
+
+    public void setBankingName(String bankingName) {
+        this.bankingName = bankingName;
+    }
+
+    public String getBankingAccountNumber() {
+        return bankingAccountNumber;
+    }
+
+    public void setBankingAccountNumber(String bankingAccountNumber) {
+        this.bankingAccountNumber = bankingAccountNumber;
+    }
+
+
 
     @Override
     public String toString() {

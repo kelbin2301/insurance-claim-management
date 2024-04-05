@@ -1,8 +1,10 @@
 package org.rmit.assignment.presentation;
 
+import org.rmit.assignment.dao.entity.BankingInfo;
 import org.rmit.assignment.dao.entity.Claim;
 import org.rmit.assignment.service.ClaimProcessManager;
 import org.rmit.assignment.utils.AppUtils;
+import org.rmit.assignment.utils.DateUtils;
 
 import java.util.List;
 import java.util.Scanner;
@@ -20,12 +22,15 @@ public class MainMenuApp {
         while (true) {
             AppUtils.clearConsole();
 
-            System.out.println(" ============ Insurance Claims Management System ===========");
-            System.out.println("1. View all claims");
-            System.out.println("2. Add a new claim");
-            System.out.println("3. Update a claim");
-            System.out.println("4. Delete a claim");
-            System.out.println("5. Exit");
+            System.out.println("============================================================");
+            System.out.println("              Insurance Claims Management System             ");
+            System.out.println("============================================================");
+            System.out.println("|   1. View all claims                                     |");
+            System.out.println("|   2. Add a new claim                                     |");
+            System.out.println("|   3. Update a claim                                      |");
+            System.out.println("|   4. Delete a claim                                      |");
+            System.out.println("|   5. Exit                                                |");
+            System.out.println("============================================================");
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
             scanner.nextLine();
@@ -33,9 +38,14 @@ public class MainMenuApp {
             switch (choice) {
                 case 1:
                     viewAllClaims();
+                    System.out.println("Press any key to continue...");
+                    scanner.nextLine();
                     break;
                 case 2:
                     addNewClaim();
+                    System.out.println("Claim added successfully!");
+                    System.out.println("Press any key to continue...");
+                    scanner.nextLine();
                     break;
                 case 5:
                     System.out.println("Exiting program...");
@@ -49,14 +59,68 @@ public class MainMenuApp {
 
 
     private void addNewClaim() {
+        Scanner scanner = new Scanner(System.in);
 
+        Claim claim = new Claim();
+
+        System.out.print("Enter customer ID: ");
+        String customerId = scanner.nextLine();
+        claim.setCustomerId(customerId);
+
+        System.out.println("Enter exam date (yyyy-MM-dd): ");
+        String examDate = scanner.nextLine();
+        claim.setExamDate(DateUtils.convertStringToDate(examDate));
+
+        System.out.print("Enter list documents name, separate by a comma: ");
+        String listDocuments = scanner.nextLine();
+        claim.setListDocuments(listDocuments);
+
+        System.out.print("Enter claim amount: ");
+        double claimAmount = scanner.nextDouble();
+        claim.setClaimAmount(claimAmount);
+        scanner.nextLine();
+
+        System.out.println("Enter receiver banking information: ");
+        BankingInfo bankingInfo = new BankingInfo();
+        System.out.print("Enter banking name: ");
+        String bankingName = scanner.nextLine();
+        bankingInfo.setBankName(bankingName);
+
+        System.out.print("Enter account number: ");
+        String accountNumber = scanner.nextLine();
+        bankingInfo.setAccountNumber(accountNumber);
+
+        System.out.println("Enter banking account name: ");
+        String accountName = scanner.nextLine();
+        bankingInfo.setAccountName(accountName);
+
+        claim.setBankingInfo(bankingInfo);
+
+        claimProcessManager.add(claim);
     }
 
     private void viewAllClaims() {
-        List<Claim> all = claimProcessManager.getAll();
-        System.out.println("All claims:");
-        for (Claim claim : all) {
-            System.out.println(claim);
+        List<Claim> claims = claimProcessManager.getAllClaims();
+        System.out.println("+------------+------------+-----------------------+--------------+-----------------+--------------+--------------+--------------+--------------+--------------+");
+        System.out.println("|    ID      | CustomerID |     CustomerName      | CustomerType |    ExamDate    |  Documents   | ClaimAmount  |    Status    | Banking Name | Account No   |");
+        System.out.println("+------------+------------+-----------------------+--------------+-----------------+--------------+--------------+--------------+--------------+--------------+");
+
+        for (Claim claim : claims) {
+            String bankingName = claim.getBankingName() != null ? claim.getBankingName() : "";
+            String accountNumber = claim.getBankingAccountNumber() != null ? claim.getBankingAccountNumber() : "";
+            System.out.printf("| %-10s | %-10s | %-21s | %-12s | %-15s | %-12s | %-12.2f | %-12s | %-12s | %-12s |\n",
+                    claim.getId(),
+                    claim.getCustomerId(),
+                    claim.getCustomerName(),
+                    claim.getCustomerType(),
+                    claim.getExamDate(),
+                    claim.getListDocuments(),
+                    claim.getClaimAmount(),
+                    claim.getStatus(),
+                    bankingName,
+                    accountNumber
+            );
         }
+        System.out.println("+------------+------------+-----------------------+--------------+-----------------+--------------+--------------+--------------+--------------+--------------+");
     }
 }

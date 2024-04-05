@@ -11,9 +11,7 @@ import org.rmit.assignment.dao.impl.ClaimDAOImpl;
 import org.rmit.assignment.dao.impl.CustomerDAOImpl;
 import org.rmit.assignment.presentation.MainMenuApp;
 import org.rmit.assignment.service.ClaimProcessManager;
-import org.rmit.assignment.service.ClaimService;
 import org.rmit.assignment.service.impl.ClaimProcessManagerImpl;
-import org.rmit.assignment.service.impl.ClaimServiceImpl;
 
 import java.util.List;
 
@@ -22,7 +20,6 @@ public class Application {
     private static ClaimDAO claimDAO;
     private static CustomerDAO customerDAO;
     private static BankingInfoDAO bankingInfoDAO;
-    private static ClaimService claimService;
     private static ClaimProcessManager claimProcessManager;
     private static MainMenuApp mainMenuApp;
     public static void main(String[] args) {
@@ -56,9 +53,8 @@ public class Application {
         customerDAO = new CustomerDAOImpl();
         claimDAO = new ClaimDAOImpl();
 
-        claimService = new ClaimServiceImpl(claimDAO);
+        claimProcessManager = new ClaimProcessManagerImpl(claimDAO, bankingInfoDAO, customerDAO);
 
-        claimProcessManager = new ClaimProcessManagerImpl(claimService);
         mainMenuApp = new MainMenuApp(claimProcessManager);
     }
 

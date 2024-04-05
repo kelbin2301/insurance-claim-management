@@ -7,7 +7,7 @@ public interface BaseDAO<T> {
 
     List<T> getAll();
 
-    Optional<T> get(int id);
+    Optional<T> get(String id);
 
     void save(T t);
 

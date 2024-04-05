@@ -3,8 +3,11 @@ package org.rmit.assignment.dao.impl;
 import org.rmit.assignment.dao.CustomerDAO;
 import org.rmit.assignment.dao.DatabaseInitializer;
 import org.rmit.assignment.dao.entity.Customer;
+import org.rmit.assignment.dao.entity.InsuranceCard;
 
 import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.*;
@@ -37,7 +40,26 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public Optional<Customer> get(int id) {
+    public Optional<Customer> get(String id) {
+        String query = "SELECT * FROM customer WHERE id = ?";
+        Connection connection = DatabaseInitializer.getInstance().getConnection();
+
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+
+            if (resultSet.next()) {
+                Customer customer = new Customer();
+                customer.setId(resultSet.getString("id"));
+                customer.setFullName(resultSet.getString("full_name"));
+                customer.setCustomerType(resultSet.getString("customer_type"));
+
+                return Optional.of(customer);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
         return Optional.empty();
     }
 
@@ -112,5 +134,41 @@ public class CustomerDAOImpl implements CustomerDAO {
     @Override
     public List<Customer> getCustomerWithInsuranceCard() {
         return null;
+    }
+
+    @Override
+    public Optional<Customer> getWithInsuranceCard(String id) {
+        String query = "SELECT * FROM customer c INNER JOIN insurance_card ic ON c.id = ic.customer_id WHERE c.id = ?";
+        Connection connection = DatabaseInitializer.getInstance().getConnection();
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, id);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                Customer customer = new Customer();
+                customer.setId(resultSet.getString("id"));
+                customer.setFullName(resultSet.getString("full_name"));
+                customer.setCustomerType(resultSet.getString("customer_type"));
+
+                InsuranceCard insuranceCard = new InsuranceCard();
+                insuranceCard.setCardNumber(resultSet.getString("card_number"));
+
+                String stringDate = resultSet.getString("expiration_date");
+                Date date = Date.valueOf(stringDate);
+
+                insuranceCard.setExpirationDate(date);
+                insuranceCard.setPolicyOwner(resultSet.getString("policy_owner"));
+
+                customer.setInsuranceCard(insuranceCard);
+                return Optional.of(customer);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return Optional.empty();
     }
 }
