@@ -9,18 +9,31 @@ import org.rmit.assignment.dao.impl.BankingInfoDAOImpl;
 import org.rmit.assignment.dao.DatabaseInitializer;
 import org.rmit.assignment.dao.impl.ClaimDAOImpl;
 import org.rmit.assignment.dao.impl.CustomerDAOImpl;
+import org.rmit.assignment.service.ClaimProcessManager;
+import org.rmit.assignment.service.ClaimService;
+import org.rmit.assignment.service.impl.ClaimProcessManagerImpl;
+import org.rmit.assignment.service.impl.ClaimServiceImpl;
 
 import java.util.List;
 
 
 public class Application {
+
+    private static ClaimDAO claimDAO;
+
+    private static CustomerDAO customerDAO;
+
+    private static BankingInfoDAO bankingInfoDAO;
+
+    private static ClaimService claimService;
+
+    private static ClaimProcessManager claimProcessManager;
     public static void main(String[] args) {
         initDatabase();
 
-        BankingInfoDAO bankingInfoDAO = new BankingInfoDAOImpl();
-        CustomerDAO customerDAO = new CustomerDAOImpl();
-        ClaimDAO claimDAO = new ClaimDAOImpl();
-        List<Claim> all = claimDAO.getAll();
+        initAppObjects();
+
+        List<Claim> all = claimProcessManager.getAll();
         for (Claim claim : all) {
             System.out.println(claim);
         }
@@ -39,6 +52,17 @@ public class Application {
             }
         }
     }
+
+    public static void initAppObjects() {
+        bankingInfoDAO = new BankingInfoDAOImpl();
+        customerDAO = new CustomerDAOImpl();
+        claimDAO = new ClaimDAOImpl();
+
+        claimService = new ClaimServiceImpl(claimDAO);
+
+        claimProcessManager = new ClaimProcessManagerImpl(claimService);
+    }
+
 
     public static void initDatabase() {
         String dbPath = "src/main/resources/database.db";
