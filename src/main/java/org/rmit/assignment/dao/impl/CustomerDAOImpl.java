@@ -137,6 +137,46 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
+    public List<Customer> getCustomersWithInsuranceCardAndClaimCount() {
+        Connection connection = DatabaseInitializer.getInstance().getConnection();
+        String query = "SELECT c.id, c.full_name, c.customer_type, ic.card_number, ic.policy_owner, ic.expiration_date, COUNT(cl.id) AS claim_count, SUM(cl.claim_amount) as total_claim_amount FROM customer c " +
+                "LEFT JOIN insurance_card ic ON c.id = ic.customer_id " +
+                "LEFT JOIN claim cl ON c.id = cl.customer_id " +
+                "GROUP BY c.id";
+
+        List<Customer> customerList = new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()) {
+                Customer customer = new Customer();
+                customer.setId(resultSet.getString("id"));
+                customer.setFullName(resultSet.getString("full_name"));
+                customer.setCustomerType(resultSet.getString("customer_type"));
+
+                InsuranceCard insuranceCard = new InsuranceCard();
+                insuranceCard.setCardNumber(resultSet.getString("card_number"));
+                insuranceCard.setPolicyOwner(resultSet.getString("policy_owner"));
+
+                String expirationDateString = resultSet.getString("expiration_date");
+                Date expirationDate = Date.valueOf(expirationDateString);
+                insuranceCard.setExpirationDate(expirationDate);
+
+                customer.setInsuranceCard(insuranceCard);
+                customer.setClaimCount(resultSet.getInt("claim_count"));
+                customer.setTotalClaimAmount(resultSet.getDouble("total_claim_amount"));
+
+                customerList.add(customer);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return customerList;
+    }
+
+    @Override
     public Optional<Customer> getWithInsuranceCard(String id) {
         String query = "SELECT * FROM customer c INNER JOIN insurance_card ic ON c.id = ic.customer_id WHERE c.id = ?";
         Connection connection = DatabaseInitializer.getInstance().getConnection();

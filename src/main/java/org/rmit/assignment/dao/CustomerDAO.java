@@ -11,5 +11,7 @@ public interface CustomerDAO extends BaseDAO<Customer> {
 
     List<Customer> getCustomerWithInsuranceCard();
 
+    List<Customer> getCustomersWithInsuranceCardAndClaimCount();
+
     Optional<Customer> getWithInsuranceCard(String id);
 }

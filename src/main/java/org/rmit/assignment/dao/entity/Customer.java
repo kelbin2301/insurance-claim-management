@@ -16,6 +16,10 @@ public class Customer {
 
     private List<Customer> dependents;
 
+    private Integer claimCount;
+
+    private Double totalClaimAmount;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -76,5 +80,22 @@ public class Customer {
                 ", fullName='" + fullName + '\'' +
                 ", customerType='" + customerType + '\'' +
                 '}';
+    }
+
+    public Double getTotalClaimAmount() {
+        return totalClaimAmount;
+    }
+
+    public void setTotalClaimAmount(Double totalClaimAmount) {
+        this.totalClaimAmount = totalClaimAmount;
+    }
+
+
+    public Integer getClaimCount() {
+        return claimCount;
+    }
+
+    public void setClaimCount(Integer claimCount) {
+        this.claimCount = claimCount;
     }
 }

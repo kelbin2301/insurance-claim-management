@@ -101,6 +101,12 @@ public class ClaimProcessManagerImpl implements ClaimProcessManager {
         return allWithCustomerInfoAndBankInfo;
     }
 
+    @Override
+    public List<Customer> getAllCustomersInformation() {
+//        List<Customer> allCustomers =
+        return customerDAO.getCustomersWithInsuranceCardAndClaimCount();
+    }
+
     private String formatListDocuments(String rawDocumentList, String claimId, String insuranceCardNumber) {
         String[] claimsDocuments = rawDocumentList.split(",");
 

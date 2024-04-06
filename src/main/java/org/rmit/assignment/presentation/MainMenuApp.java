@@ -35,7 +35,7 @@ public class MainMenuApp {
             System.out.println("|   4. Update a claim                                      |");
             System.out.println("|   5. Delete a claim                                      |");
             System.out.println("|   6. View all customers                                  |");
-            System.out.println("|   6. Add a new customer                                  |");
+            System.out.println("|   7. Add a new customer                                  |");
             System.out.println("|   0. Exit                                                |");
             System.out.println("============================================================");
             System.out.print("Enter your choice: ");
@@ -75,6 +75,11 @@ public class MainMenuApp {
                     System.out.println("Press enter to continue...");
                     scanner.nextLine();
                     break;
+                case 6:
+                    viewAllCustomers();
+                    System.out.print("Press enter to continue...");
+                    scanner.nextLine();
+                    break;
                 case 0:
                     System.out.println("Exiting program...");
                     System.exit(0);
@@ -83,6 +88,28 @@ public class MainMenuApp {
                     System.out.println("Invalid choice. Please enter a number between 1 and 5.");
             }
         }
+    }
+
+    private void viewAllCustomers() {
+        List<Customer> customers = claimProcessManager.getAllCustomersInformation();
+
+        System.out.println("+------------+-----------------------+--------------+-----------------+--------------+--------------+--------------+--------------+");
+        System.out.println("|    ID      |     Customer Name     | Customer Type | Insurance Card  | Policy Owner | Expiration   | Claim Count  | Total Claim  |");
+        System.out.println("+------------+-----------------------+--------------+-----------------+--------------+--------------+--------------+--------------+");
+        for (Customer customer : customers) {
+            InsuranceCard insuranceCard = customer.getInsuranceCard();
+            System.out.printf("| %-10s | %-21s | %-12s | %-15s | %-12s | %-12s | %-12d | %-12.2f |\n",
+                    customer.getId(),
+                    customer.getFullName(),
+                    customer.getCustomerType(),
+                    insuranceCard.getCardNumber(),
+                    insuranceCard.getPolicyOwner(),
+                    insuranceCard.getExpirationDate(),
+                    customer.getClaimCount(),
+                    customer.getTotalClaimAmount()
+            );
+        }
+        System.out.println("+------------+-----------------------+--------------+-----------------+--------------+--------------+--------------+--------------+");
     }
 
     private void viewDetailClaim() {
