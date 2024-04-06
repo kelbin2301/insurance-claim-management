@@ -69,8 +69,7 @@ public class DatabaseInitializer {
                 ");";
 
         final String createInsuranceCardTable = "CREATE TABLE IF NOT EXISTS insurance_card (" +
-                "id varchar(255) PRIMARY KEY," +
-                "card_number varchar(255)," +
+                "card_number varchar(255) PRIMARY KEY," +
                 "customer_id varchar(255)," +
                 "policy_owner varchar(255)," +
                 "expiration_date date" +
@@ -155,45 +154,45 @@ public class DatabaseInitializer {
             // ========================
 
             // ===== Insert insurance card data
-            statement.execute("INSERT INTO insurance_card (id, card_number, customer_id, policy_owner, expiration_date) " +
-                    "VALUES ('2000000001', '211000001', 'c-1000001', 'John Hank', '2024-12-31');");
-            statement.execute("INSERT INTO insurance_card (id, card_number, customer_id, policy_owner, expiration_date) " +
-                    "VALUES ('2000000002', '211000002', 'c-1000002', 'John Hank', '2024-12-31');");
+            statement.execute("INSERT INTO insurance_card (card_number, customer_id, policy_owner, expiration_date) " +
+                    "VALUES ('2110000001', 'c-1000001', 'John Hank', '2024-12-31');");
+            statement.execute("INSERT INTO insurance_card (card_number, customer_id, policy_owner, expiration_date) " +
+                    "VALUES ('2110000002', 'c-1000002', 'John Hank', '2024-12-31');");
 
-            statement.execute("INSERT INTO insurance_card (id, card_number, customer_id, policy_owner, expiration_date) " +
-                    "VALUES ('2000000003', '211000003', 'c-1000003', 'Alice ABC', '2025-12-31');");
-            statement.execute("INSERT INTO insurance_card (id, card_number, customer_id, policy_owner, expiration_date) " +
-                    "VALUES ('2000000004', '211000004', 'c-1000004', 'Alice ABC', '2025-12-31');");
+            statement.execute("INSERT INTO insurance_card (card_number, customer_id, policy_owner, expiration_date) " +
+                    "VALUES ('2110000003', 'c-1000003', 'Alice ABC', '2025-12-31');");
+            statement.execute("INSERT INTO insurance_card (card_number, customer_id, policy_owner, expiration_date) " +
+                    "VALUES ('2110000004', 'c-1000004', 'Alice ABC', '2025-12-31');");
 
-            statement.execute("INSERT INTO insurance_card (id, card_number, customer_id, policy_owner, expiration_date) " +
-                    "VALUES ('2000000005', '211000005', 'c-1000005', 'Charlie Doe', '2023-12-31');");
-            statement.execute("INSERT INTO insurance_card (id, card_number, customer_id, policy_owner, expiration_date) " +
-                    "VALUES ('2000000006', '211000006', 'c-1000006', 'Charlie Doe', '2023-12-31');");
-            statement.execute("INSERT INTO insurance_card (id, card_number, customer_id, policy_owner, expiration_date) " +
-                    "VALUES ('2000000007', '211000007', 'c-1000007', 'Charlie Doe', '2023-12-31');");
+            statement.execute("INSERT INTO insurance_card (card_number, customer_id, policy_owner, expiration_date) " +
+                    "VALUES ('2110000005', 'c-1000005', 'Charlie Doe', '2023-12-31');");
+            statement.execute("INSERT INTO insurance_card (card_number, customer_id, policy_owner, expiration_date) " +
+                    "VALUES ('2110000006', 'c-1000006', 'Charlie Doe', '2023-12-31');");
+            statement.execute("INSERT INTO insurance_card (card_number, customer_id, policy_owner, expiration_date) " +
+                    "VALUES ('2110000007', 'c-1000007', 'Charlie Doe', '2023-12-31');");
 
-            statement.execute("INSERT INTO insurance_card (id, card_number, customer_id, policy_owner, expiration_date) " +
-                    "VALUES ('2000000008', '211000008', 'c-1000008', 'Frank Smith', '2023-12-31');");
-            statement.execute("INSERT INTO insurance_card (id, card_number, customer_id, policy_owner, expiration_date) " +
-                    "VALUES ('2000000009', '211000009', 'c-1000009', 'Frank Smith', '2023-12-31');");
-            statement.execute("INSERT INTO insurance_card (id, card_number, customer_id, policy_owner, expiration_date) " +
-                    "VALUES ('2000000010', '211000010', 'c-1000010', 'Frank Smith', '2023-12-31');");
+            statement.execute("INSERT INTO insurance_card (card_number, customer_id, policy_owner, expiration_date) " +
+                    "VALUES ('2110000008', 'c-1000008', 'Frank Smith', '2023-12-31');");
+            statement.execute("INSERT INTO insurance_card (card_number, customer_id, policy_owner, expiration_date) " +
+                    "VALUES ('2110000009', 'c-1000009', 'Frank Smith', '2023-12-31');");
+            statement.execute("INSERT INTO insurance_card (card_number, customer_id, policy_owner, expiration_date) " +
+                    "VALUES ('2110000010', 'c-1000010', 'Frank Smith', '2023-12-31');");
 
-            statement.execute("INSERT INTO insurance_card (id, card_number, customer_id, policy_owner, expiration_date) " +
-                    "VALUES ('2000000011', '211000011', 'c-1000011', 'Ivy White', '2026-10-31');");
-            statement.execute("INSERT INTO insurance_card (id, card_number, customer_id, policy_owner, expiration_date) " +
-                    "VALUES ('2000000012', '211000012', 'c-1000012', 'Ivy White', '2026-10-31');");
-            statement.execute("INSERT INTO insurance_card (id, card_number, customer_id, policy_owner, expiration_date) " +
-                    "VALUES ('2000000013', '211000013', 'c-1000013', 'Ivy White', '2026-10-31');");
-            statement.execute("INSERT INTO insurance_card (id, card_number, customer_id, policy_owner, expiration_date) " +
-                    "VALUES ('2000000014', '211000014', 'c-1000014', 'Ivy White', '2026-10-31');");
+            statement.execute("INSERT INTO insurance_card (card_number, customer_id, policy_owner, expiration_date) " +
+                    "VALUES ('2110000011', 'c-1000011', 'Ivy White', '2026-10-31');");
+            statement.execute("INSERT INTO insurance_card (card_number, customer_id, policy_owner, expiration_date) " +
+                    "VALUES ('2110000012', 'c-1000012', 'Ivy White', '2026-10-31');");
+            statement.execute("INSERT INTO insurance_card (card_number, customer_id, policy_owner, expiration_date) " +
+                    "VALUES ('2110000013', 'c-1000013', 'Ivy White', '2026-10-31');");
+            statement.execute("INSERT INTO insurance_card (card_number, customer_id, policy_owner, expiration_date) " +
+                    "VALUES ('2110000014', 'c-1000014', 'Ivy White', '2026-10-31');");
 
-            statement.execute("INSERT INTO insurance_card (id, card_number, customer_id, policy_owner, expiration_date) " +
-                    "VALUES ('2000000015', '211000015', 'c-1000015', 'Mia Black', '2025-3-20');");
-            statement.execute("INSERT INTO insurance_card (id, card_number, customer_id, policy_owner, expiration_date) " +
-                    "VALUES ('2000000016', '211000016', 'c-1000016', 'Mia Black', '2025-3-20');");
-            statement.execute("INSERT INTO insurance_card (id, card_number, customer_id, policy_owner, expiration_date) " +
-                    "VALUES ('2000000017', '211000017', 'c-1000017', 'Mia Black', '2025-3-20');");
+            statement.execute("INSERT INTO insurance_card (card_number, customer_id, policy_owner, expiration_date) " +
+                    "VALUES ('2110000015', 'c-1000015', 'Mia Black', '2025-3-20');");
+            statement.execute("INSERT INTO insurance_card (card_number, customer_id, policy_owner, expiration_date) " +
+                    "VALUES ('2110000016', 'c-1000016', 'Mia Black', '2025-3-20');");
+            statement.execute("INSERT INTO insurance_card (card_number, customer_id, policy_owner, expiration_date) " +
+                    "VALUES ('2110000017', 'c-1000017', 'Mia Black', '2025-3-20');");
             // ========================
 
             // ===== Insert Banking Info data

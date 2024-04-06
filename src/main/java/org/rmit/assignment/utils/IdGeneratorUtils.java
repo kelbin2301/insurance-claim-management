@@ -16,4 +16,9 @@ public class IdGeneratorUtils {
     public static String generateBankingInfoId() {
         return generateId("b-", (int) (Math.random() * 10000000));
     }
+
+    public static String generateInsuranceCardNumber() {
+        // Generate the random 10 digits number
+        return String.valueOf((long) (Math.random() * 10000000000L));
+    }
 }

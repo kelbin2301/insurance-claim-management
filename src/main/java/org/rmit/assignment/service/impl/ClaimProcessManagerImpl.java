@@ -106,6 +106,15 @@ public class ClaimProcessManagerImpl implements ClaimProcessManager {
         return customerDAO.getCustomersWithInsuranceCardAndClaimCount();
     }
 
+    @Override
+    public void addCustomer(Customer customer) {
+        customer.setId(IdGeneratorUtils.generateCustomerId());
+
+        customer.getInsuranceCard().setCardNumber(IdGeneratorUtils.generateInsuranceCardNumber());
+
+        customerDAO.save(customer);
+    }
+
     private String formatListDocuments(String rawDocumentList, String claimId, String insuranceCardNumber) {
         String[] claimsDocuments = rawDocumentList.split(",");
 

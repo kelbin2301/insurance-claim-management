@@ -16,4 +16,6 @@ public interface ClaimProcessManager {
     List<Claim> getAllClaims(String status);
 
     List<Customer> getAllCustomersInformation();
+
+    void addCustomer(Customer customer);
 }

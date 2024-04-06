@@ -5,6 +5,7 @@ import org.rmit.assignment.dao.entity.Claim;
 import org.rmit.assignment.dao.entity.Customer;
 import org.rmit.assignment.dao.entity.InsuranceCard;
 import org.rmit.assignment.enumeration.ClaimStatus;
+import org.rmit.assignment.enumeration.CustomerType;
 import org.rmit.assignment.service.ClaimProcessManager;
 import org.rmit.assignment.utils.AppUtils;
 import org.rmit.assignment.utils.DateUtils;
@@ -104,6 +105,15 @@ public class MainMenuApp {
                     System.out.print("Press enter to continue...");
                     scanner.nextLine();
                     break;
+                case 7:
+                    try {
+                        addNewCustomer();
+                    } catch (Exception e) {
+                        System.out.println("Error occurred while adding new customer!");
+                    }
+                    System.out.print("Press enter to continue...");
+                    scanner.nextLine();
+                    break;
                 case 0:
                     System.out.println("Exiting program...");
                     System.exit(0);
@@ -112,6 +122,42 @@ public class MainMenuApp {
                     System.out.println("Invalid choice. Please enter a number between 1 and 5.");
             }
         }
+    }
+
+    private void addNewCustomer() {
+        Scanner scanner = new Scanner(System.in);
+
+        Customer customer = new Customer();
+
+        System.out.println("Enter customer full name: ");
+        String fullName = scanner.nextLine();
+        customer.setFullName(fullName);
+
+        System.out.println("Enter customer type (policy_holder, dependent): ");
+        String customerType = scanner.nextLine();
+        CustomerType customerTypeValue = CustomerType.fromValue(customerType);
+        if (customerTypeValue == null) {
+            System.out.println("Invalid customer type. Please enter a valid customer type.");
+            return;
+        }
+        customer.setCustomerType(customerType);
+
+        InsuranceCard insuranceCard = new InsuranceCard();
+        System.out.println("Enter insurance card number: ");
+        String cardNumber = scanner.nextLine();
+        insuranceCard.setCardNumber(cardNumber);
+
+        System.out.println("Enter policy owner: ");
+        String policyOwner = scanner.nextLine();
+        insuranceCard.setPolicyOwner(policyOwner);
+
+        System.out.println("Enter expiration date (yyyy-MM-dd): ");
+        String expirationDate = scanner.nextLine();
+        insuranceCard.setExpirationDate(DateUtils.convertStringToDate(expirationDate));
+
+        customer.setInsuranceCard(insuranceCard);
+
+        claimProcessManager.addCustomer(customer);
     }
 
     private void viewAllCustomers() {
