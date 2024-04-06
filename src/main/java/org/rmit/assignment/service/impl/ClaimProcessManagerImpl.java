@@ -103,7 +103,6 @@ public class ClaimProcessManagerImpl implements ClaimProcessManager {
 
     @Override
     public List<Customer> getAllCustomersInformation() {
-//        List<Customer> allCustomers =
         return customerDAO.getCustomersWithInsuranceCardAndClaimCount();
     }
 

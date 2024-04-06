@@ -44,39 +44,63 @@ public class MainMenuApp {
 
             switch (choice) {
                 case 1:
-                    viewAllClaims();
+                    try {
+                        viewAllClaims();
+                    } catch (Exception e) {
+                        System.out.println("Error occurred while viewing claims!");
+                    }
                     System.out.print("Press enter to continue...");
                     scanner.nextLine();
                     break;
                 case 2:
-                    viewDetailClaim();
+                    try {
+                        viewDetailClaim();
+                    }  catch (Exception e) {
+                        System.out.println("Error occurred while viewing claim detail!");
+                    }
                     System.out.print("Press enter to continue...");
                     scanner.nextLine();
                     break;
                 case 3:
-                    addNewClaim();
-                    System.out.println("Claim added successfully!");
+                    try {
+                        addNewClaim();
+                        System.out.println("Claim added successfully!");
+                    } catch (Exception e) {
+                        System.out.println("Error occurred while adding new claim!");
+                    }
                     System.out.print("Press enter to continue...");
                     scanner.nextLine();
                     break;
                 case 4:
-                    updateClaim();
-                    System.out.println("Claim updated successfully!");
+                    try {
+                        updateClaim();
+                        System.out.println("Claim updated successfully!");
+                    } catch (Exception e) {
+                        System.out.println("Error occurred while updating claim!");
+                    }
                     System.out.print("Press enter to continue...");
                     scanner.nextLine();
                     break;
                 case 5:
-                    boolean isDeleted = deleteClaim();
-                    if (isDeleted) {
-                        System.out.println("Claim deleted successfully!");
-                    } else {
-                        System.out.print("Operation cancelled!");
+                    try {
+                        boolean isDeleted = deleteClaim();
+                        if (isDeleted) {
+                            System.out.println("Claim deleted successfully!");
+                        } else {
+                            System.out.print("Operation cancelled!");
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Error occurred while deleting claim!");
                     }
                     System.out.println("Press enter to continue...");
                     scanner.nextLine();
                     break;
                 case 6:
-                    viewAllCustomers();
+                    try {
+                        viewAllCustomers();
+                    } catch (Exception e) {
+                        System.out.println("Error occurred while viewing customers!");
+                    }
                     System.out.print("Press enter to continue...");
                     scanner.nextLine();
                     break;
