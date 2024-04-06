@@ -1,7 +1,6 @@
 package org.rmit.assignment.dao.impl;
 
 import org.rmit.assignment.dao.BankingInfoDAO;
-import org.rmit.assignment.dao.BaseDAO;
 import org.rmit.assignment.dao.DatabaseInitializer;
 import org.rmit.assignment.dao.entity.BankingInfo;
 

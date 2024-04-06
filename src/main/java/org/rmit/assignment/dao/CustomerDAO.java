@@ -7,8 +7,6 @@ import java.util.Optional;
 
 public interface CustomerDAO extends BaseDAO<Customer> {
 
-    List<Customer> getPolicyOwnerWithDependents();
-
     List<Customer> getCustomersWithInsuranceCardAndClaimCount();
 
     Optional<Customer> getWithInsuranceCard(String id);

@@ -36,18 +36,6 @@ public class Application {
         closeDatabase();
     }
 
-    public static void testCustomerWithDependents(List<Customer> customers) {
-        for (Customer customer : customers) {
-            System.out.println(customer);
-            List<Customer> dependents = customer.getDependents();
-            if (dependents != null) {
-                for (Customer dependent : dependents) {
-                    System.out.println(dependent);
-                }
-            }
-        }
-    }
-
     public static void initAppObjects() {
         bankingInfoDAO = new BankingInfoDAOImpl();
         customerDAO = new CustomerDAOImpl();
