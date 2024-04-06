@@ -9,6 +9,7 @@ import org.rmit.assignment.enumeration.CustomerType;
 import org.rmit.assignment.service.ClaimProcessManager;
 import org.rmit.assignment.utils.AppUtils;
 import org.rmit.assignment.utils.DateUtils;
+import org.rmit.assignment.utils.IdGeneratorUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -142,9 +143,15 @@ public class MainMenuApp {
         }
         customer.setCustomerType(customerType);
 
+        if (customerTypeValue == CustomerType.DEPENDENT) {
+            System.out.println("Enter policy holder ID: ");
+            String policyHolderId = scanner.nextLine();
+            customer.setDependentOf(policyHolderId);
+        }
+
         InsuranceCard insuranceCard = new InsuranceCard();
-        System.out.println("Enter insurance card number: ");
-        String cardNumber = scanner.nextLine();
+        String cardNumber = IdGeneratorUtils.generateInsuranceCardNumber();
+        System.out.println("Insurance card number will be generated automatically. Generated card number: " + cardNumber);
         insuranceCard.setCardNumber(cardNumber);
 
         System.out.println("Enter policy owner: ");

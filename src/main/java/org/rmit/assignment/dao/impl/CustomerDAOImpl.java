@@ -65,7 +65,53 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public void save(Customer customer) {
+        Connection connection = DatabaseInitializer.getInstance().getConnection();
 
+        String insertCustomer;
+        if (customer.getDependentOf() == null) {
+            insertCustomer = "INSERT INTO customer (id, full_name, customer_type) VALUES (?, ?, ?)";
+
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement(insertCustomer);
+                preparedStatement.setString(1, customer.getId());
+                preparedStatement.setString(2, customer.getFullName());
+                preparedStatement.setString(3, customer.getCustomerType());
+
+                preparedStatement.executeUpdate();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            insertCustomer = "INSERT INTO customer (id, full_name, customer_type, dependent_of) VALUES (?, ?, ?, ?)";
+
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement(insertCustomer);
+                preparedStatement.setString(1, customer.getId());
+                preparedStatement.setString(2, customer.getFullName());
+                preparedStatement.setString(3, customer.getCustomerType());
+                preparedStatement.setString(4, customer.getDependentOf());
+
+                preparedStatement.executeUpdate();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        InsuranceCard insuranceCard = customer.getInsuranceCard();
+        if (insuranceCard != null) {
+            String insertInsuranceCard = "INSERT INTO insurance_card (card_number, customer_id, policy_owner, expiration_date) VALUES (?, ?, ?, ?)";
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement(insertInsuranceCard);
+                preparedStatement.setString(1, insuranceCard.getCardNumber());
+                preparedStatement.setString(2, customer.getId());
+                preparedStatement.setString(3, insuranceCard.getPolicyOwner());
+                preparedStatement.setString(4, insuranceCard.getExpirationDate().toString());
+
+                preparedStatement.executeUpdate();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     @Override
@@ -129,11 +175,6 @@ public class CustomerDAOImpl implements CustomerDAO {
         }
 
         return customerList;
-    }
-
-    @Override
-    public List<Customer> getCustomerWithInsuranceCard() {
-        return null;
     }
 
     @Override

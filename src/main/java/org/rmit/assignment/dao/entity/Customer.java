@@ -16,6 +16,8 @@ public class Customer {
 
     private List<Customer> dependents;
 
+    private String dependentOf;
+
     private Integer claimCount;
 
     private Double totalClaimAmount;
@@ -97,5 +99,13 @@ public class Customer {
 
     public void setClaimCount(Integer claimCount) {
         this.claimCount = claimCount;
+    }
+
+    public String getDependentOf() {
+        return dependentOf;
+    }
+
+    public void setDependentOf(String dependentOf) {
+        this.dependentOf = dependentOf;
     }
 }
