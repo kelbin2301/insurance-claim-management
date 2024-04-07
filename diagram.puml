@@ -1,0 +1,79 @@
+@startuml
+
+interface ClaimDAO
+interface CustomerDAO
+interface BankingInfoDAO
+interface ClaimProcessManager
+interface BasedDAO
+
+class MainMenuApp
+class ClaimDAOImpl
+class CustomerDAOImpl
+class BankingInfoDAOImpl
+class ClaimProcessManagerImpl
+
+Application --> ClaimDAO
+Application --> CustomerDAO
+Application --> BankingInfoDAO
+Application --> ClaimProcessManager
+Application --> MainMenuApp
+
+Application : +main(String[] args)
+Application : +initAppObjects()
+Application : +initDatabase()
+Application : +closeDatabase()
+
+ClaimDAO <|-- ClaimDAOImpl
+CustomerDAO <|-- CustomerDAOImpl
+BankingInfoDAO <|-- BankingInfoDAOImpl
+ClaimProcessManager <|-- ClaimProcessManagerImpl
+ClaimDAOImpl --|> BasedDAO
+CustomerDAOImpl --|> BasedDAO
+BankingInfoDAOImpl --|> BasedDAO
+
+ClaimProcessManagerImpl ..> ClaimDAO : <<use>>
+ClaimProcessManagerImpl ..> CustomerDAO : <<use>>
+ClaimProcessManagerImpl ..> BankingInfoDAO : <<use>>
+
+MainMenuApp ..> ClaimProcessManager : <<use>>
+
+class MainMenuApp{
+    +start()
+    -addNewCustomer()
+    -viewAllCustomers()
+    -viewDetailClaim()
+    -deleteClaim()
+    -updateClaim()
+    -addNewClaim()
+    -viewAllClaims()
+}
+interface BasedDAO {
+    +getAll()
+    +get(String id)
+    +save(Object obj)
+    +update(Object obj)
+    +delete(Object obj)
+}
+'
+interface CustomerDAO {
+    getCustomersWithInsuranceCardAndClaimCount(): List<Customer>
+    getWithInsuranceCard(String id): Optional<Customer>
+}
+interface ClaimDAO {
+    +getAllWithCustomerInfoAndBankInfo(String status): List<Claim>
+    +getByClaimIdWithAllData(String claimId): Optional<Claim>
+}
+
+interface ClaimProcessManager {
+    +add(Claim claim)
+    +update(Claim claim)
+    +delete(Claim claim)
+    +getOne(String claimId): Claim
+    +getOneWithAllData(String claimId): Claim
+    +getAllClaims(String status): List<Claim>
+    +getAllCustomersInformation(): List<Customer>
+    +addCustomer(Customer customer)
+}
+
+
+@enduml
